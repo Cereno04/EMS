@@ -14,7 +14,7 @@ Responsive UI: Crafted with a "Mobile-First" approach using modern CSS component
 - Database: SQLite
 - Tools: VScode, Herd
 
-- ## Technologies & Tools
+## Technologies
 
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 
