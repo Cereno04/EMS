@@ -5,36 +5,42 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 
-// --- Authentication Views ---
-Route::get('/', function () {
-    return view('auth.login'); 
-})->name('home');
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/login', function () {
-    return view('auth.login'); 
-})->name('login');
-
-// --- Authentication Actions (Keep as is for logic) ---
+Route::get('/', fn() => view('auth.login'))->name('home');
+Route::get('/login', fn() => view('auth.login'))->name('login');
 Route::post('/login', [AuthController::class, 'handleLogin']);
 Route::post('/signup', [AuthController::class, 'handleRegister']);
 
-// --- Dashboard (Keep Controller for dynamic data) ---
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+/*
+|--------------------------------------------------------------------------
+| Authenticated Routes
+|--------------------------------------------------------------------------
+*/
 
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/');
+Route::middleware('auth')->group(function () {
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::post('/logout', function () {
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect()->route('login');
+    })->name('logout');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Management Routes
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/employees', fn() => view('components.employees'))->name('employees.index');
+    Route::get('/departments', fn() => view('components.departments'))->name('departments.index');
+    Route::get('/attendance', fn() => view('components.attendance'))->name('attendance.index');
+
 });
-
-// --- Components / Management ---
-Route::get('/employees', function () {
-    return view('components.employees');
-})->name('employees.index');
-
-Route::get('/departments', function () {
-    return view('components.departments');
-})->name('departments.index');
-
-Route::get('/attendance', function () {
-    return view('components.attendance');
-})->name('attendance.index');
