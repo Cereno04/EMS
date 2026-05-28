@@ -14,6 +14,12 @@ Responsive UI: Crafted with a "Mobile-First" approach using modern CSS component
 - Database: SQLite
 - Tools: VScode, Herd
 
+## images
+<img width="1355" height="631" alt="image" src="https://github.com/user-attachments/assets/c7be0266-ab1a-489c-abec-41836d2ff0a4" />
+<img width="1362" height="631" alt="image" src="https://github.com/user-attachments/assets/7ebb360e-bb21-4a43-8bc8-2abc6a5cfabd" />
+<img width="1359" height="621" alt="image" src="https://github.com/user-attachments/assets/100ef021-7119-4b0c-ad2d-4ed97acc7d01" />
+<img width="1357" height="611" alt="image" src="https://github.com/user-attachments/assets/b4b90023-4dd0-4644-a184-00f6ee542a39" />
+
 ## Technologies
 
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
