@@ -8,7 +8,7 @@ Departmental Organization: Dedicated module to manage company departments and as
 Attendance Tracking: Built-in sidebar integration for future attendance logging.
 Responsive UI: Crafted with a "Mobile-First" approach using modern CSS components for a seamless experience across all devices.
 
-🛠️ Tech Stack
+## Tech Stack
 Backend: Laravel (PHP)
 Frontend: Tailwind CSS / Blade Templating
 Database: SQLite
