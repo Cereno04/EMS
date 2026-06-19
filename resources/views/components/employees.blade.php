@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/team.png') }}">
     <title>EMS - Employees List</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -75,6 +76,24 @@
             </div>
         </header>
 
+        <!-- SUCCESS / ERROR MESSAGES -->
+        @if (session('success'))
+            <div class="mb-6 px-4 py-3 rounded-lg bg-green-50 text-green-700 text-sm font-medium">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="mb-6 px-4 py-3 rounded-lg bg-red-50 text-red-700 text-sm">
+                <p class="font-semibold mb-1">Please fix the following:</p>
+                <ul class="list-disc list-inside space-y-0.5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <!-- TABLE SECTION (All Borders and Shadows Removed) -->
         <div class="bg-white overflow-hidden">
             <div class="overflow-x-auto px-0 mt-6">
@@ -122,27 +141,34 @@
                     </thead>
 
                     <tbody class="text-sm">
-                        <!-- Rows highlight on hover but have no horizontal borders -->
-                        <tr class="hover:bg-gray-50/50 transition-all">
-                            <td class="px-3 py-4 font-medium text-slate-900 whitespace-nowrap">John Doe</td>
-                            <td class="px-3 py-4 text-slate-500">john@readymadeui.com</td>
-                            <td class="px-3 py-4 text-slate-500">Product Designer</td>
-                            <td class="px-3 py-4 text-slate-500">Admin</td>
-                            <td class="px-3 py-4 flex gap-4">
-                                <button class="text-blue-700 hover:underline">Edit</button>
-                                <button class="text-red-700 hover:underline">Delete</button>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-gray-50/50 transition-all">
-                            <td class="px-3 py-4 font-medium text-slate-900 whitespace-nowrap">Jane Smith</td>
-                            <td class="px-3 py-4 text-slate-500">jane@readymadeui.com</td>
-                            <td class="px-3 py-4 text-slate-500">Frontend Engineer</td>
-                            <td class="px-3 py-4 text-slate-500">Member</td>
-                            <td class="px-3 py-4 flex gap-4">
-                                <button class="text-blue-700 hover:underline">Edit</button>
-                                <button class="text-red-700 hover:underline">Delete</button>
-                            </td>
-                        </tr>
+                        @forelse ($employees as $employee)
+                            <tr class="hover:bg-gray-50/50 transition-all">
+                                <td class="px-3 py-4 text-slate-500">{{ $employee->id }}</td>
+                                <td class="px-3 py-4 font-medium text-slate-900 whitespace-nowrap">{{ $employee->full_name }}</td>
+                                <td class="px-3 py-4 text-slate-500">{{ $employee->position }}</td>
+                                <td class="px-3 py-4 text-slate-500">{{ $employee->department->name ?? '—' }}</td>
+                                <td class="px-3 py-4 text-slate-500">{{ $employee->email }}</td>
+                                <td class="px-3 py-4">
+                                    <span class="px-2 py-1 rounded-full text-xs font-semibold {{ $employee->status === 'Active' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500' }}">
+                                        {{ $employee->status }}
+                                    </span>
+                                </td>
+                                <td class="px-3 py-4 flex gap-4">
+                                    <button class="text-blue-700 hover:underline">Edit</button>
+                                    <form action="{{ route('employees.destroy', $employee->id) }}" method="POST" onsubmit="return confirm('Delete this employee?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-700 hover:underline">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="px-3 py-8 text-center text-slate-400">
+                                    No employees yet. Click "+ Add Employee" to create one.
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -181,6 +207,11 @@
         document.getElementById('modalBackdrop').addEventListener('click', (e) => {
             if (e.target.id === 'modalBackdrop') toggleModal();
         });
+
+        // Re-open modal automatically if validation failed, so user sees the errors
+        @if ($errors->any())
+            document.addEventListener('DOMContentLoaded', () => toggleModal());
+        @endif
     </script>
 </body>
-</html>
+</html> 

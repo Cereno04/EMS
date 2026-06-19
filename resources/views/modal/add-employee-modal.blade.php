@@ -17,8 +17,8 @@
 
         <!-- Body -->
         <div class="p-6 overflow-y-auto max-h-[75vh]">
-            <form id="addEmployeeForm" class="space-y-2">
-                
+            <form id="addEmployeeForm" action="{{ route('employees.store') }}" method="POST" class="space-y-2">
+                @csrf
                 <!-- Section 1: Basic Information -->
                 <div class="space-y-4">
                     <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wider flex items-center gap-2">
@@ -27,19 +27,21 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase">Full Name</label>
-                            <input type="text" placeholder="e.g. John Doe" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-gray-500 outline-none">
+                            <input name="full_name" type="text" value="{{ old('full_name') }}" placeholder="e.g. John Doe" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-gray-500 outline-none @error('full_name') border-red-400 @enderror">
+                            @error('full_name') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase">Email</label>
-                            <input type="email" placeholder="email@example.com" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-gray-500 outline-none">
+                            <input name="email" type="email" value="{{ old('email') }}" placeholder="email@example.com" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-gray-500 outline-none @error('email') border-red-400 @enderror">
+                            @error('email') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase">Phone Number</label>
-                            <input type="tel" placeholder="09XX XXX XXXX" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-gray-500 outline-none">
+                            <input name="phone" type="tel" value="{{ old('phone') }}" placeholder="09XX XXX XXXX" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-gray-500 outline-none">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase">Address</label>
-                            <input type="text" placeholder="Street, City" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-gray-500 outline-none">
+                            <input name="address" type="text" value="{{ old('address') }}" placeholder="Street, City" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-gray-500 outline-none">
                         </div>
                     </div>
                 </div>
@@ -54,23 +56,25 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase">Position</label>
-                            <input type="text" placeholder="e.g. Developer" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-gray-500 outline-none">
+                            <input name="position" type="text" value="{{ old('position') }}" placeholder="e.g. Developer" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-gray-500 outline-none @error('position') border-red-400 @enderror">
+                            @error('position') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase">Department</label>
-                            <select class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white outline-none">
+                            <select name="department_id" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white outline-none @error('department_id') border-red-400 @enderror">
                                 <option value="">Select Department</option>
-                                <option value="it">IT Department</option>
-                                <option value="hr">Human Resources</option>
-                                <option value="marketing">Marketing</option>
+                                @foreach ($departments as $department)
+                                    <option value="{{ $department->id }}" {{ old('department_id') == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
+                                @endforeach
                             </select>
+                            @error('department_id') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase">Employee Type (Optional)</label>
-                            <select class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white outline-none">
-                                <option value="full-time">Full-time</option>
-                                <option value="part-time">Part-time</option>
-                                <option value="contract">Contract</option>
+                            <select name="employee_type" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white outline-none">
+                                <option value="full-time" {{ old('employee_type') == 'full-time' ? 'selected' : '' }}>Full-time</option>
+                                <option value="part-time" {{ old('employee_type') == 'part-time' ? 'selected' : '' }}>Part-time</option>
+                                <option value="contract" {{ old('employee_type') == 'contract' ? 'selected' : '' }}>Contract</option>
                             </select>
                         </div>
                     </div>
@@ -86,17 +90,17 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase">Date Hired</label>
-                            <input type="date" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-gray-500 outline-none">
+                            <input name="date_hired" type="date" value="{{ old('date_hired') }}" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-gray-500 outline-none">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase">Status</label>
                             <div class="flex items-center gap-4 py-1">
                                 <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="status" value="active" class="w-4 h-4" checked>
+                                    <input name="status" type="radio" value="Active" class="w-4 h-4" {{ old('status', 'Active') == 'Active' ? 'checked' : '' }}>
                                     <span class="text-sm text-gray-700">Active</span>
                                 </label>
                                 <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="status" value="inactive" class="w-4 h-4">
+                                    <input name="status" type="radio" value="Inactive" class="w-4 h-4" {{ old('status') == 'Inactive' ? 'checked' : '' }}>
                                     <span class="text-sm text-gray-700">Inactive</span>
                                 </label>
                             </div>
@@ -108,7 +112,7 @@
 
         <!-- Footer -->
         <div class="px-6 py-4 border-t border-gray-200 flex justify-end gap-2">
-            <button onclick="toggleModal()" class="bg-[#6c757d] hover:bg-[#5a6268] text-white px-5 py-2 rounded-md text-sm font-medium transition-colors">
+            <button type="button" onclick="toggleModal()" class="bg-[#6c757d] hover:bg-[#5a6268] text-white px-5 py-2 rounded-md text-sm font-medium transition-colors">
                 Close
             </button>
             <button type="submit" form="addEmployeeForm" class="bg-[#0d6efd] hover:bg-[#0b5ed7] text-white px-5 py-2 rounded-md text-sm font-medium transition-colors">

@@ -74,32 +74,32 @@
             <div class="bg-[#2d2d2d] p-5 rounded-2xl relative shadow-sm h-36 flex flex-col justify-between">
                 <div>
                     <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Total Employees</span>
-                    <h3 class="text-2xl font-bold text-white mt-1">2,324</h3>
-                    <p class="text-[9px] text-gray-500 mt-0.5">+201</p>
+                    <h3 class="text-2xl font-bold text-white mt-1">{{ $totalEmployees }}</h3>
+                    <!-- <p class="text-[9px] text-gray-500 mt-0.5">0</p> -->
                 </div>
                 <img src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png" class="absolute top-4 right-4 w-8 h-8 opacity-80 invert" alt="icon">
             </div>
             <div class="bg-white border border-gray-100 p-5 rounded-2xl relative shadow-sm h-36 flex flex-col justify-between">
                 <div>
                     <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Active Employees</span>
-                    <h3 class="text-2xl font-bold text-gray-900 mt-1">0</h3>
-                    <p class="text-[9px] text-gray-400 mt-0.5">Updated just now</p>
+                    <h3 class="text-2xl font-bold text-gray-900 mt-1">{{ $activeEmployees }}</h3>
+                    <!-- <p class="text-[9px] text-gray-400 mt-0.5">Updated just now</p> -->
                 </div>
                 <img src="https://cdn-icons-png.flaticon.com/512/2098/2098402.png" class="absolute top-4 right-4 w-8 h-8 grayscale opacity-40" alt="icon">
             </div>
             <div class="bg-white border border-gray-100 p-5 rounded-2xl relative shadow-sm h-36 flex flex-col justify-between">
                 <div>
                     <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Departments</span>
-                    <h3 class="text-2xl font-bold text-gray-900 mt-1">16,703</h3>
-                    <p class="text-[9px] text-gray-400 mt-0.5">+1,202</p>
+                    <h3 class="text-2xl font-bold text-gray-900 mt-1">{{ $totalDepartments }}</h3>
+                    <!-- <p class="text-[9px] text-gray-400 mt-0.5">0</p> -->
                 </div>
                 <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="absolute top-4 right-4 w-8 h-8 grayscale opacity-40" alt="icon">
             </div>
             <div class="bg-white border border-gray-100 p-5 rounded-2xl relative shadow-sm h-36 flex flex-col justify-between">
                 <div>
                     <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Pending Requests</span>
-                    <h3 class="text-2xl font-bold text-gray-900 mt-1">12.8%</h3>
-                    <p class="text-[9px] text-gray-400 mt-0.5">-2.22%</p>
+                    <h3 class="text-2xl font-bold text-gray-900 mt-1">0</h3>
+                    <!-- <p class="text-[9px] text-gray-400 mt-0.5">0</p> -->
                 </div>
                 <img src="https://cdn-icons-png.flaticon.com/512/423/423786.png" class="absolute top-4 right-4 w-8 h-8 grayscale opacity-40" alt="icon">
             </div>
